@@ -37,3 +37,16 @@ export interface GeneratedItinerary {
   days: ItineraryDay[];
   recommendations: string[];
 }
+export interface TravelFormData {
+  fromLocation: string;
+  destination: string;
+  startDate: string;
+  endDate: string;
+  budget: string;
+  groupSize: number;
+  interests: string[];
+  accommodationType: string;
+  transportMode: string;
+  specialRequests: string;
+}
+
