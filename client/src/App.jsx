@@ -5,10 +5,10 @@ import TravelForm from './components/TravelForm';
 import ItineraryDisplay from './components/ItineraryDisplay';
 import LoadingSpinner from './components/LoadingSpinner';
 import { generateItinerary } from './utils/itineraryGenerator';
-import { generatePDF } from './utils/pdfGenerator';
+import { generatePDF } from './utils/pdfGenerator.js';
 
 function App() {
-  const [currentStep, setCurrentStep] = useState('form'); // 'form', 'loading', 'itinerary'
+  const [currentStep, setCurrentStep] = useState('form'); 
   const [itinerary, setItinerary] = useState(null);
   const [travelFormData, setTravelFormData] = useState(null);
 
@@ -16,7 +16,6 @@ function App() {
     setTravelFormData(formData);
     setCurrentStep('loading');
     
-    // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     const generatedItinerary = generateItinerary(formData);
