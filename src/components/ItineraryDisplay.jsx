@@ -2,8 +2,8 @@ import React from 'react';
 import { Download, Clock, MapPin, DollarSign, Star, Calendar, Lightbulb, Plane, Building, Users, ArrowLeft } from 'lucide-react';
 import { getDestinationImage, getActivityImage } from '../utils/destinationImages';
 import { format, parseISO, differenceInDays } from 'date-fns';
-import FlightSummary from './FlightSummary';
-import HotelBookings from './HotelBookings';
+// import FlightSummary from './FlightSummary';
+// import HotelBookings from './HotelBookings';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 
@@ -24,7 +24,7 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
           <p className="text-xl font-medium mb-6">{days} Days {nights} Nights</p>
           
           <div className="flex items-center space-x-6 text-lg mb-8">
-            <Plane className="w-6 h-6" />
+            {/* <Plane className="w-6 h-6" /> */}
             <Building className="w-6 h-6" />
             <Users className="w-6 h-6" />
             <MapPin className="w-6 h-6" />
@@ -154,7 +154,7 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
                   </div>
                 )}
                 {/* Flights */}
-                {day.flights && day.flights.length > 0 && (
+                {/* {day.flights && day.flights.length > 0 && (
                   <div>
                     <h4 className="text-lg font-bold text-green-700 mb-2">Flights</h4>
                     {day.flights.map((flight, fIdx) => (
@@ -167,7 +167,7 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
                       </div>
                     ))}
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </Card>
@@ -175,15 +175,15 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
       </div>
 
       {/* Flight Summary */}
-      <FlightSummary formData={formData} />
+      {/* <FlightSummary formData={formData} /> */}
 
       {/* Hotel Bookings */}
-      <HotelBookings formData={formData} itinerary={itinerary} />
+      {/* <HotelBookings formData={formData} itinerary={itinerary} /> */}
 
       {/* Important Notes, Scope of Service, Inclusion Summary - Styled to match provided image */}
-      <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8">
+      {/* <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8"> */}
         {/* Important Notes */}
-        <h2 className="text-2xl font-bold text-[black] mb-4">Important <span className="text-purple-600">Notes</span></h2>
+        {/* <h2 className="text-2xl font-bold text-[black] mb-4">Important <span className="text-purple-600">Notes</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div className="rounded-2xl overflow-hidden shadow-md">
             <table className="w-full text-sm">
@@ -202,9 +202,9 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
               </tbody>
             </table>
           </div>
-        </div>
+        </div> */}
         {/* Scope of Service */}
-        <h2 className="text-2xl font-bold text-black mb-4">Scope Of <span className="text-purple-600">Service</span></h2>
+        {/* <h2 className="text-2xl font-bold text-black mb-4">Scope Of <span className="text-purple-600">Service</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div className="rounded-2xl overflow-hidden shadow-md">
             <table className="w-full text-sm">
@@ -223,9 +223,9 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
               </tbody>
             </table>
           </div>
-        </div>
+        </div> */}
         {/* Inclusion Summary */}
-        <h2 className="text-2xl font-bold text-black mb-4">Inclusion <span className="text-purple-600">Summary</span></h2>
+        {/* <h2 className="text-2xl font-bold text-black mb-4">Inclusion <span className="text-purple-600">Summary</span></h2>
         <div className="overflow-x-auto rounded-2xl shadow-md">
           <table className="w-full text-sm">
             <thead>
@@ -257,28 +257,28 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
               </tr>
             </tbody>
           </table>
-        </div>
-        <div className="text-xs text-gray-500 mt-4">
+        </div> */}
+        {/* <div className="text-xs text-gray-500 mt-4">
           <p><strong>Transfer Policy (Refundable Upon Claim):</strong> If any transfer is delayed beyond 15 minutes, customers may book an app-based or radio taxi and claim a refund for that specific leg.</p>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center mt-8 text-xs text-gray-600">
           <div>
-            <span className="font-bold">Vigovia Tech Pvt. Ltd</span><br/>
+            <span className="font-bold">SPY Tech Pvt. Ltd</span><br/>
             Registered Office: Hd-109 Cinnabar Hills, Links Business Park, Karnataka, India.
           </div>
           <div className="mt-4 md:mt-0">
             <span className="font-bold">Phone:</span> +91-99X9999999<br/>
-            <span className="font-bold">Email ID:</span> Contact@Vigovia.Com
+            <span className="font-bold">Email ID:</span> Contact@spy.Com
           </div>
           <div className="mt-4 md:mt-0 flex flex-col items-center">
-            <span className="text-[#6C3FC5] font-bold text-lg">vigovia</span>
-            <span className="text-xs text-gray-500">PLAN.PACK.GO</span>
+            <span className="text-[#6C3FC5] font-bold text-lg">SPY</span>
+            <span className="text-xs text-gray-500">Socho, Parkho, Yatra Karo</span>
           </div>
-        </div>
-      </Card>
+        </div> */}
+      {/* </Card> */}
 
       {/* Activity Table */}
-      <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8">
+      {/* <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8">
         <h2 className="text-2xl font-bold text-black mb-4">Activity <span className="text-[#6C3FC5]">Table</span></h2>
         <div className="overflow-x-auto rounded-2xl shadow-md">
           <table className="w-full text-sm">
@@ -291,7 +291,6 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
               </tr>
             </thead>
             <tbody className="bg-[#F7F5FB] text-gray-700">
-              {/* Example static rows, you can make this dynamic if you want */}
               <tr className="border-b">
                 <td className="px-4 py-3 font-semibold">Rio De Janeiro</td>
                 <td className="px-4 py-3">Sydney Harbour Cruise & Taronga Zoo</td>
@@ -313,7 +312,7 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
             </tbody>
           </table>
         </div>
-      </Card>
+      </Card> */}
 
       {/* Terms and Conditions */}
       <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8">
@@ -322,7 +321,7 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
       </Card>
 
       {/* Payment Plan */}
-      <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8">
+      {/* <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8">
         <h2 className="text-2xl font-bold text-black mb-4">Payment <span className="text-purple-600">Plan</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
           <div className="rounded-2xl overflow-hidden shadow-md">
@@ -368,10 +367,10 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
             </tbody>
           </table>
         </div>
-      </Card>
+      </Card> */}
 
       {/* Visa Details and Book Now CTA */}
-      <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8">
+      {/* <Card className="bg-white rounded-3xl shadow-2xl p-8 mt-8 mb-8">
         <h2 className="text-xl font-bold text-black mb-4">Visa <span className="text-purple-600">Details</span></h2>
         <div className="border border-purple-400 rounded-xl p-4 flex flex-col md:flex-row justify-between items-center mb-6">
           <div className="flex-1 flex flex-col items-center md:items-start mb-4 md:mb-0">
@@ -392,7 +391,7 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
           <h3 className="text-2xl font-bold text-purple-800 tracking-widest mb-4">PLAN.PACK.GO!</h3>
           <button className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-10 rounded-full text-lg shadow-lg transition-all">Book Now</button>
         </div>
-      </Card>
+      </Card> */}
 
       {/* Recommendations */}
       <Card className="bg-white rounded-2xl shadow-lg p-8 mt-8">
@@ -411,7 +410,7 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
       </Card>
 
       {/* Budget Summary */}
-      <Card className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 mt-6 border border-green-200">
+      {/* <Card className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 mt-6 border border-green-200">
         <div className="flex justify-between items-center">
           <div>
             <h3 className="text-lg font-bold text-gray-800">Total Estimated Budget</h3>
@@ -422,7 +421,7 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
             <p className="text-sm text-gray-500">{formData.budget} range</p>
           </div>
         </div>
-      </Card>
+      </Card> */}
     </div>
   );
 };

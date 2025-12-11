@@ -13,7 +13,7 @@ const initialFormData = {
   groupSize: 2,
   interests: [],
   accommodationType: 'hotel',
-  transportMode: 'flight',
+  transportMode: 'train',
   specialRequests: '',
   travelerName: ''
 };
@@ -112,32 +112,32 @@ const TravelForm = ({ onSubmit }) => {
         : day
     ));
   };
-  const handleFlightChange = (dayIdx, flightIdx, field, value) => {
-    setDays(prev => prev.map((day, dIdx) =>
-      dIdx === dayIdx
-        ? {
-            ...day,
-            flights: day.flights.map((flight, fIdx) =>
-              fIdx === flightIdx ? { ...flight, [field]: value } : flight
-            )
-          }
-        : day
-    ));
-  };
-  const addFlight = (dayIdx) => {
-    setDays(prev => prev.map((day, dIdx) =>
-      dIdx === dayIdx
-        ? { ...day, flights: [...(day.flights || []), { airline: '', flightNumber: '', departure: '', arrival: '', price: '' }] }
-        : day
-    ));
-  };
-  const removeFlight = (dayIdx, flightIdx) => {
-    setDays(prev => prev.map((day, dIdx) =>
-      dIdx === dayIdx
-        ? { ...day, flights: (day.flights || []).filter((_, fIdx) => fIdx !== flightIdx) }
-        : day
-    ));
-  };
+  // const handleFlightChange = (dayIdx, flightIdx, field, value) => {
+  //   setDays(prev => prev.map((day, dIdx) =>
+  //     dIdx === dayIdx
+  //       ? {
+  //           ...day,
+  //           flights: day.flights.map((flight, fIdx) =>
+  //             fIdx === flightIdx ? { ...flight, [field]: value } : flight
+  //           )
+  //         }
+  //       : day
+  //   ));
+  // };
+  // const addFlight = (dayIdx) => {
+  //   setDays(prev => prev.map((day, dIdx) =>
+  //     dIdx === dayIdx
+  //       ? { ...day, flights: [...(day.flights || []), { airline: '', flightNumber: '', departure: '', arrival: '', price: '' }] }
+  //       : day
+  //   ));
+  // };
+  // const removeFlight = (dayIdx, flightIdx) => {
+  //   setDays(prev => prev.map((day, dIdx) =>
+  //     dIdx === dayIdx
+  //       ? { ...day, flights: (day.flights || []).filter((_, fIdx) => fIdx !== flightIdx) }
+  //       : day
+  //   ));
+  // };
 
   const handleFinalSubmit = (e) => {
     e.preventDefault();
@@ -325,7 +325,7 @@ const TravelForm = ({ onSubmit }) => {
                 onChange={(e) => setFormData(prev => ({ ...prev, transportMode: e.target.value }))}
                 className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-lg"
               >
-                <option value="flight">Flight</option>
+                {/* <option value="flight">Flight</option> */}
                 <option value="train">Train</option>
                 <option value="bus">Bus</option>
                 <option value="car">Car</option>
@@ -429,7 +429,7 @@ const TravelForm = ({ onSubmit }) => {
                 </div>
               ))}
               <Button type="button" onClick={() => addTransfer(dayIdx)} className="flex items-center text-blue-700 hover:text-blue-900 font-semibold mt-2"><Plus className="w-5 h-5 mr-1" /> Add Transfer</Button>
-              <h3 className="text-xl font-bold text-green-700 mt-6 mb-2">Flights</h3>
+              {/* <h3 className="text-xl font-bold text-green-700 mt-6 mb-2">Flights</h3>
               {(day.flights || []).map((flight, flightIdx) => (
                 <div key={flightIdx} className="flex flex-col md:flex-row md:items-end gap-4 mb-4 bg-green-50 p-4 rounded-xl">
                   <Input type="text" placeholder="Airline" value={flight.airline} onChange={e => handleFlightChange(dayIdx, flightIdx, 'airline', e.target.value)} className="w-32 px-4 py-3 border border-gray-300 rounded-lg text-lg" />
@@ -440,7 +440,7 @@ const TravelForm = ({ onSubmit }) => {
                   <Button type="button" onClick={() => removeFlight(dayIdx, flightIdx)} className="text-red-500 hover:bg-red-100 rounded-full p-2"><Trash2 className="w-5 h-5" /></Button>
                 </div>
               ))}
-              <Button type="button" onClick={() => addFlight(dayIdx)} className="flex items-center text-green-700 hover:text-green-900 font-semibold mt-2"><Plus className="w-5 h-5 mr-1" /> Add Flight</Button>
+              <Button type="button" onClick={() => addFlight(dayIdx)} className="flex items-center text-green-700 hover:text-green-900 font-semibold mt-2"><Plus className="w-5 h-5 mr-1" /> Add Flight</Button> */}
             </div>
           ))}
           <div className="flex justify-between">

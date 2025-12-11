@@ -134,7 +134,7 @@ const Footer = () => {
             <a href="#" aria-label="Accessibility" className="hover:text-white transition-colors">Accessibility</a>
           </div>
         </div>
-        <div className="text-center text-xs text-purple-200 mt-4">© 2025 Vigovia Travel Technologies (P) Ltd. All rights reserved.</div>
+        <div className="text-center text-xs text-purple-200 mt-4">© 2025 SPY Travel Technologies (P) Ltd. All rights reserved.</div>
       </div>
     </footer>
   );
