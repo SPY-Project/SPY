@@ -10,21 +10,23 @@ app.use(cors({
   origin: "http://localhost:5173",
   credentials: true
 }));
-
 app.post("/generate-itinerary", async (req, res) => {
   try {
     const data = req.body;
 
-    // console.log("Request received → ", data);
+const prompt = `
+You are a professional travel planner.
 
-    const prompt = `
-Generate a complete travel itinerary in JSON.
-Currency should ALWAYS be INR.
+Generate a COMPLETE, DETAILED, DAY-BY-DAY travel itinerary in STRICT JSON format.
+Currency must ALWAYS be INR.
+
+IMPORTANT: Timings must be REALISTIC and DIFFERENT for EACH DAY.
+DO NOT reuse the same time slots across different days.
 
 INPUT:
 ${JSON.stringify(data)}
 
-OUTPUT FORMAT:
+OUTPUT FORMAT (STRICT JSON ONLY):
 {
   "summary": {
     "travelerName": "",
@@ -34,18 +36,22 @@ OUTPUT FORMAT:
     "tripDates": "",
     "budgetCategory": "",
     "groupSize": "",
-    "totalEstimatedCostINR": ""
+    "totalEstimatedCostINR": "",
+    "bestTimeToVisit": "",
+    "weatherTips": ""
   },
   "stay": {
     "hotelName": "",
     "hotelAddress": "",
     "pricePerNightINR": "",
-    "totalHotelCostINR": ""
+    "totalHotelCostINR": "",
+    "whyThisHotel": ""
   },
   "travel": {
     "mode": "",
     "ticketDetails": "",
-    "costINR": ""
+    "costINR": "",
+    "travelTips": ""
   },
   "dayWisePlan": [
     {
@@ -56,7 +62,8 @@ OUTPUT FORMAT:
           "time": "",
           "title": "",
           "details": "",
-          "costINR": ""
+          "costINR": "",
+          "insight": ""
         }
       ]
     }
@@ -65,28 +72,47 @@ OUTPUT FORMAT:
     {
       "restaurant": "",
       "type": "",
-      "approxCostINR": ""
+      "approxCostINR": "",
+      "mustTry": ""
     }
-  ]
+  ],
+  "valuableInsights": {
+    "localTransportTips": "",
+    "moneySavingTips": "",
+    "safetyTips": "",
+    "shoppingTips": "",
+    "avoidTheseMistakes": ""
+  }
 }
 
-Rules:
-- Always generate a full itinerary even if trip is only 1 day.
-- Always include: breakfast, sightseeing, local travel, dinner.
-- Activities must have time + cost.
-- Costs must be realistic INR amounts.
-- Always use the destination provided in INPUT.
-- Keep the JSON VALID. No comments, no text outside JSON.
-    `;
+TIMING RULES (CRITICAL):
+- Each day MUST have DIFFERENT time schedules.
+- Day start time must vary between 6:00 AM – 8:30 AM.
+- Lunch time must vary between 12:30 PM – 2:30 PM.
+- Evening activities must vary between 4:30 PM – 7:00 PM.
+- Dinner time must vary between 7:30 PM – 10:00 PM.
+- DO NOT repeat identical time values across days.
+- Activity durations must feel natural (not uniform).
+
+GENERAL RULES:
+- Every day must cover morning to night.
+- Always include breakfast, sightseeing, lunch, rest, local travel, and dinner.
+- Activities must have time + realistic INR cost.
+- Adjust pacing and costs based on groupSize and trip duration.
+- Use ONLY places from the destination city.
+- Keep JSON 100% VALID.
+- No markdown, no comments, no extra text.
+`;
+
+
+  
 
     // Call OpenRouter API directly
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "Referer": "http://localhost:5173", 
-  "X-Title": "Travel Planner"
+        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',   // You can switch to gpt-4.1 if needed
@@ -95,12 +121,18 @@ Rules:
       })
     });
 
-    const result = await response.json();
-const rawContent = result.choices?.[0]?.message?.content || "";
+  const result = await response.json();
+  // console.log("OpenRouter response → ", result);
+  if (!result.choices || !result.choices.length) {
+  console.error("OpenRouter error:", result);
+  return res.status(500).json({
+    error: "AI response invalid",
+    details: result
+  });
+}
 
+const rawContent = result.choices[0].message.content;
 
-
-// Clean the AI output to make it valid JSON
 const cleanContent = rawContent
   .replace(/```json/g, '')
   .replace(/```/g, '')
