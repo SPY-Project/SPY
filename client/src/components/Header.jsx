@@ -1,12 +1,12 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, User, Map, Heart } from 'lucide-react';
+import { ArrowLeft, LogOut, User, Map, Heart } from 'lucide-react';
 
-const Header = ({ onLoginClick }) => {
+const Header = ({ onLoginClick, showBack = true, onBack }) => {
   const { user, logout } = useAuth();
 
   return (
-    <header className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 shadow-lg w-full overflow-hidden">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 shadow-lg overflow-hidden backdrop-blur-xl bg-opacity-95">
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16 animate-pulse"></div>
@@ -41,13 +41,27 @@ const Header = ({ onLoginClick }) => {
               <Heart className="h-4 w-4 group-hover:scale-110 transition-transform" />
               <span className="font-medium">Experiences</span>
             </a>
+          {user && (
             <a href="#history" className="flex items-center space-x-2 text-white/90 hover:text-white transition-colors group">
               <span className="font-medium">History</span>
             </a>
+          )}
           </nav>
 
           {/* Auth Section */}
           <div className="flex items-center gap-4">
+            {showBack && onBack && (
+              <button
+                type="button"
+                onClick={onBack}
+                title="Go back to the previous page"
+                aria-label="Back"
+                className="flex items-center gap-2 px-3 py-2 bg-white/10 text-white/90 rounded-full transition-all duration-200 hover:bg-white/20 hover:ring-2 hover:ring-white/20"
+              >
+                <ArrowLeft size={16} />
+                <span className="hidden sm:inline">Back</span>
+              </button>
+            )}
             {user ? (
               <>
                 <div className="flex items-center gap-2 text-white/90 bg-white/10 px-3 py-2 rounded-lg backdrop-blur-sm">
@@ -64,10 +78,12 @@ const Header = ({ onLoginClick }) => {
               </>
             ) : (
               <button
+                type="button"
                 onClick={onLoginClick}
-                className="px-6 py-2 bg-white text-blue-600 hover:bg-blue-50 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg hover:scale-105"
+                className="flex items-center justify-center gap-2 px-5 py-2 bg-white text-blue-600 hover:bg-blue-50 rounded-full font-semibold transition-all duration-200 hover:shadow-lg hover:scale-105"
               >
-                Login / Sign Up
+                <User size={16} />
+                <span>Sign On</span>
               </button>
             )}
           </div>

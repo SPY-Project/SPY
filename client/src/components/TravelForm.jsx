@@ -71,32 +71,61 @@ export default function TravelForm({ onSubmit }) {
 
   return (
     <section
-      className="w-full min-h-screen bg-cover bg-center bg-no-repeat overflow-x-hidden"
-      style={{ backgroundImage: "url('/travel1.png')" }}
+      className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat pt-24"
+      style={{
+        backgroundImage: "url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')"
+      }}
     >
-      {/* Overlay for readability */}
-      <div className="w-full min-h-full bg-black/40 flex items-center">
+      <div className="absolute inset-0 bg-slate-950/60" />
+      <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-10 lg:py-16">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="space-y-8 text-white">
+            <span className="inline-flex rounded-full bg-blue-400/20 px-4 py-2 text-xs tracking-[0.35em] text-blue-100 uppercase shadow-sm">
+              Premium Travel Planning
+            </span>
+            <div className="space-y-4">
+              <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
+                Plan your next trip with clarity, speed, and style.
+              </h1>
+              <p className="max-w-2xl text-lg text-slate-200/90 sm:text-xl">
+                Build a complete itinerary, from stays and transport to food recommendations and day-by-day plans — all optimized for your destination and budget.
+              </p>
+            </div>
 
-        {/* Content container */}
-        <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
-          <p className="text-center text-sm text-gray-300 mb-2">
-            Step {step} of 2
-          </p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-xl shadow-slate-950/20 backdrop-blur-md">
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-300">Smart insights</p>
+                <h3 className="mt-3 text-xl font-semibold text-white">Local travel tips</h3>
+                <p className="mt-2 text-slate-300">Recommendations that make your itinerary feel custom-built.</p>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-xl shadow-slate-950/20 backdrop-blur-md">
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-300">Modern timing</p>
+                <h3 className="mt-3 text-xl font-semibold text-white">Realistic daily plans</h3>
+                <p className="mt-2 text-slate-300">Each day is balanced with travel, meals, and experiences.</p>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-xl shadow-slate-950/20 backdrop-blur-md">
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-300">Smart budget</p>
+                <h3 className="mt-3 text-xl font-semibold text-white">INR cost estimates</h3>
+                <p className="mt-2 text-slate-300">Know what to expect before you commit to the plan.</p>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-xl shadow-slate-950/20 backdrop-blur-md">
+                <p className="text-sm uppercase tracking-[0.28em] text-slate-300">Group ready</p>
+                <h3 className="mt-3 text-xl font-semibold text-white">Designed for groups</h3>
+                <p className="mt-2 text-slate-300">Customize your trip with friends or family in mind.</p>
+              </div>
+            </div>
+          </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-white">
-            Plan Your Perfect Journey
-          </h2>
+          <div className="rounded-[32px] border border-white/20 bg-white/90 p-8 shadow-2xl shadow-slate-950/15 backdrop-blur-xl">
+            <div className="mb-8">
+              <p className="text-sm uppercase tracking-[0.35em] text-slate-500">Step {step} of 2</p>
+              <h2 className="mt-4 text-3xl font-semibold text-slate-900">Share your travel details</h2>
+              <p className="mt-3 text-slate-600">Complete the form below and generate a ready-to-use itinerary.</p>
+            </div>
 
-          <p className="text-center text-gray-200 mb-10 max-w-2xl mx-auto">
-            Smart, Personalized travel planning tailored just for you
-          </p>
-
-          {/* STEP 1 */}
-          {step === 1 && (
-            <form onSubmit={handleNext}>
-              <Card className="p-8 space-y-8 bg-white/90 backdrop-blur-lg shadow-2xl">
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {step === 1 && (
+              <form onSubmit={handleNext} className="space-y-6">
+                <div className="grid gap-4 md:grid-cols-3">
                   <Input
                     type="text"
                     placeholder="Your Name"
@@ -120,7 +149,7 @@ export default function TravelForm({ onSubmit }) {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid gap-4 md:grid-cols-2">
                   <Input
                     type="date"
                     icon={<Calendar size={18} />}
@@ -149,50 +178,45 @@ export default function TravelForm({ onSubmit }) {
                       }))
                     }
                   />
-
-                  {/* SPECIAL REQUESTS */}
-                  <Input
-                    type="textarea"
-                    value={formData.specialRequests}
-                    onChange={e =>
-                      setFormData(prev => ({
-                        ...prev,
-                        specialRequests: e.target.value
-                      }))
-                    }
-                    className="h-32 resize-none"
-                    placeholder="Any dietary requirements, accessibility needs, or special activities..."
-                  />
                 </div>
-                <Button type="submit" className="w-full bg-blue-600 text-white py-4 text-xl">
-                  Next <ArrowRight className="inline ml-2" />
+
+                <Input
+                  type="textarea"
+                  value={formData.specialRequests}
+                  onChange={e =>
+                    setFormData(prev => ({
+                      ...prev,
+                      specialRequests: e.target.value
+                    }))
+                  }
+                  className="h-32 resize-none"
+                  placeholder="Special requests (diet, accessibility, activities...)"
+                />
+
+                <Button type="submit" className="w-full bg-blue-600 text-white py-4 text-xl hover:bg-blue-700">
+                  Continue to Preferences
                 </Button>
+              </form>
+            )}
 
-              </Card>
-            </form>
-          )}
-
-          {/* STEP 2 */}
-          {step === 2 && (
-            <form onSubmit={handleFinalSubmit}>
-              <Card className="p-8 space-y-8 bg-white/90 backdrop-blur-lg shadow-2xl">
-
+            {step === 2 && (
+              <form onSubmit={handleFinalSubmit} className="space-y-6">
                 <div>
-                  <label>Budget</label>
+                  <label className="mb-2 block text-sm font-medium text-slate-700">Budget</label>
                   <select
                     value={formData.budget}
                     onChange={e => setFormData({ ...formData, budget: e.target.value })}
-                    className="w-full p-3 border rounded-lg"
+                    className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-700 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
                   >
                     <option value="budget">Budget Friendly</option>
                     <option value="mid-range">Comfortable</option>
                     <option value="luxury">Luxury</option>
                   </select>
                 </div>
-                <div>
-                  <label className="block mb-1">Group Size</label>
 
-                  <div className="w-full p-3 border rounded-lg items-center flex justify-between max-w-xs">
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-slate-700">Group Size</label>
+                  <div className="flex max-w-xs items-center justify-between rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3">
                     <button
                       type="button"
                       onClick={() =>
@@ -201,15 +225,11 @@ export default function TravelForm({ onSubmit }) {
                           groupSize: Math.max(1, prev.groupSize - 1)
                         }))
                       }
-                      className="px-3 py-1 border rounded"
+                      className="rounded-full border border-slate-300 bg-white px-3 py-1 text-lg font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-200"
                     >
                       −
                     </button>
-
-                    <span className="text-lg font-semibold">
-                      {formData.groupSize}
-                    </span>
-
+                    <span className="text-lg font-semibold text-slate-900">{formData.groupSize}</span>
                     <button
                       type="button"
                       onClick={() =>
@@ -218,34 +238,26 @@ export default function TravelForm({ onSubmit }) {
                           groupSize: prev.groupSize + 1
                         }))
                       }
-                      className="px-3 py-1 border rounded"
+                      className="rounded-full border border-slate-300 bg-white px-3 py-1 text-lg font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-200"
                     >
                       +
                     </button>
                   </div>
-
                 </div>
-                <div>
-                  <label className="block mb-2 font-medium">Your Interests</label>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-slate-700">Your Interests</label>
+                  <div className="grid gap-3 sm:grid-cols-2">
                     {interestOptions.map(i => {
                       const selected = formData.interests.includes(i);
-
                       return (
                         <button
                           key={i}
                           type="button"
                           onClick={() => handleInterestToggle(i)}
-                          className={`
-            capitalize px-4 py-2 rounded-lg border transition-all
-            flex items-center justify-center gap-2
-            ${selected
-                              ? "bg-purple-600 text-white border-purple-600 shadow-md scale-105"
-                              : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"}
-          `}
+                          className={`rounded-2xl border px-4 py-3 text-left text-sm transition ${selected ? 'border-purple-600 bg-purple-600 text-white shadow-md' : 'border-slate-300 bg-white text-slate-700 hover:border-purple-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-purple-200'}`}
                         >
-                          {selected && "✓"}
+                          {selected ? '✓ ' : ''}
                           {i}
                         </button>
                       );
@@ -253,15 +265,12 @@ export default function TravelForm({ onSubmit }) {
                   </div>
                 </div>
 
-
-                <Button type="submit" className="w-full bg-green-600 text-white py-4 text-xl">
+                <Button type="submit" className="w-full bg-purple-600 text-white py-4 text-xl hover:bg-purple-700">
                   Generate Itinerary
                 </Button>
-
-              </Card>
-            </form>
-          )}
-
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </section>

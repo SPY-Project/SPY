@@ -33,7 +33,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         : formData;
 
       const response = await axios.post(`http://localhost:5000${endpoint}`, payload);
-      
+
       if (response.data.token) {
         login(response.data.token, response.data.user);
         onClose();
@@ -50,8 +50,8 @@ const LoginModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-md w-full relative">
+    <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="relative max-w-md w-full rounded-[2rem] border border-white/10 bg-white/95 shadow-2xl overflow-hidden">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -63,14 +63,17 @@ const LoginModal = ({ isOpen, onClose }) => {
 
         <div className="p-8 pt-12">
           {/* Header */}
-          <h2 className="text-2xl font-bold text-center mb-2 text-gray-800">
-            {isLogin ? 'Welcome Back' : 'Create Account'}
-          </h2>
-          <p className="text-center text-gray-600 text-sm mb-6">
-            {isLogin
-              ? 'Sign in to your SPY account'
-              : 'Join SPY and start planning your trips'}
-          </p>
+          <div className="mb-6 text-center">
+            <span className="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-indigo-700">
+              Secure travel access
+            </span>
+            <h2 className="mt-4 text-2xl font-bold text-gray-800">
+              {isLogin ? 'Welcome Back' : 'Create Account'}
+            </h2>
+            <p className="text-gray-600 text-sm mt-2">
+              {isLogin ? 'Sign in to your SPY account' : 'Join SPY and start planning your trips'}
+            </p>
+          </div>
 
           {/* Error Message */}
           {error && (

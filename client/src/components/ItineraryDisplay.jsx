@@ -42,146 +42,140 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
   const days = nights + 1;
 
   return (
-    <div className="max-w-4xl mx-auto">
-
-      {/* Save Status Banner */}
-      {!itinerary.saved && (
-        <div className="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded">
-          <p className="text-yellow-800">
-            <strong>Note:</strong> You're viewing this itinerary as a guest. Log in to save it to your history.
-          </p>
-        </div>
-      )}
-
-      {itinerary.saved && (
-        <div className="mb-6 p-4 bg-green-100 border-l-4 border-green-500 rounded">
-          <p className="text-green-800">
-            <strong>✓ Saved!</strong> This itinerary has been saved to your history.
-          </p>
-        </div>
-      )}
-
-      {/* Header */}
-      <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-3xl p-8 mb-8 shadow-2xl">
-        <h1 className="text-2xl mb-2">Hi, {formData.travelerName || "Traveler"}!</h1>
-
-        <h2 className="text-4xl font-bold mb-4">
-          {itinerary.summary.destination} Itinerary
-        </h2>
-
-        <p className="text-xl mb-2">{days} Days {nights} Nights</p>
-        {itinerary.summary.totalEstimatedCostINR && (
-          <p className="text-lg mb-6 text-blue-200">
-            Total Estimated Budget: ₹{itinerary.summary.totalEstimatedCostINR.toLocaleString()}
-          </p>
-        )}
-
-        <div className="flex gap-4">
-          <Button onClick={onDownloadPDF} className="bg-purple-700 text-white font-semibold flex gap-2 px-6 py-3">
-            <Download /> Download PDF
-          </Button>
-          
-          <Button onClick={onStartOver} className="bg-gray-200 flex gap-2">
-            <ArrowLeft /> Start Over
-          </Button>
-        </div>
-      </Card>
-
-      {/* Trip Info */}
-      <Card className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
-
-          <div>
-            <p className="text-sm text-gray-500 mb-1">From</p>
-            <p className="font-semibold">{formData.fromLocation}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Departure</p>
-            <p className="font-semibold">{format(startDate, "dd/MM/yyyy")}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Arrival</p>
-            <p className="font-semibold">{format(endDate, "dd/MM/yyyy")}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Destination</p>
-            <p className="font-semibold">{itinerary.summary.destination}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Travellers</p>
-            <p className="font-semibold">{formData.groupSize}</p>
-          </div>
-        </div>
-      </Card>
-
-      {/* Days */}
-      <div className="space-y-6">
-        {itinerary.dayWisePlan.map((day, index) => (
-          <Card key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden">
-
-            <div className="flex items-center p-6">
-
-              {/* Day Image */}
-              {/* <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg mr-6">
-                <img
-                  src={getDestinationImage(itinerary.summary.destination)}
-                  alt="destination"
-                  className="w-full h-full object-cover"
-                />
-              </div> */}
-
-              <div className="w-24 h-24 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 flex items-center justify-center mr-6 text-white text-sm font-semibold shadow-xl animate-pulse">
-  ✈️ Trip
-</div>
-
-
-              <div>
-                <h3 className="text-xl font-semibold text-purple-700 mb-2">Day {day.day}</h3>
-
-                {/* Activities */}
-                {day.activities?.length > 0 && (
-                  <ul className="mt-2 list-disc ml-4">
-                    {day.activities.map((act, i) => (
-                      <li key={i} className="text-gray-700">
-                        {act.time ? `${act.time} - ` : ""}
-                        {act.title}
-                        {act.costINR && (
-                          <span className="text-green-600 font-medium ml-2">
-                            ({act.costINR})
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {/* Transfers */}
-                {day.transfers?.length > 0 && (
-                  <ul className="mt-3 list-disc ml-4">
-                    {day.transfers.map((t, i) => (
-                      <li key={i} className="text-blue-700">
-                        {t.type} – {t.time} – {t.price}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {/* Per Day Budget */}
-                <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
-                  <p className="text-green-800 font-semibold">
-                    Estimated Daily Budget: ₹{calculateDayTotal(day).toLocaleString()}
-                  </p>
-                </div>
-
-              </div>
+    <div className="max-w-6xl mx-auto">
+      <div className="rounded-[2.5rem] overflow-hidden shadow-2xl ring-1 ring-black/10">
+        <div className="bg-gradient-to-r from-indigo-700 via-purple-700 to-fuchsia-600 p-10 text-white">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="space-y-4">
+              <p className="text-sm uppercase tracking-[0.35em] text-slate-200">Itinerary complete</p>
+              <h1 className="text-4xl font-bold tracking-tight">Your custom {itinerary.summary.destination} plan is ready</h1>
+              <p className="max-w-2xl text-slate-100 text-lg leading-relaxed">
+                This itinerary is built from your travel preferences, dates, and budget. Review the daily plan, download your PDF, or start over when you're ready.
+              </p>
             </div>
 
-          </Card>
-        ))}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="rounded-3xl bg-white/10 p-5">
+                <p className="text-xs uppercase tracking-[0.35em] text-slate-300">Days</p>
+                <p className="mt-3 text-3xl font-semibold">{days}</p>
+              </div>
+              <div className="rounded-3xl bg-white/10 p-5">
+                <p className="text-xs uppercase tracking-[0.35em] text-slate-300">Budget</p>
+                <p className="mt-3 text-3xl font-semibold">₹{itinerary.summary.totalEstimatedCostINR?.toLocaleString() || "TBD"}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-8 lg:p-12">
+          <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
+            <div className="space-y-6">
+              <Card className="rounded-3xl p-6 shadow-xl border border-slate-100">
+                <h2 className="text-2xl font-semibold mb-4">Trip overview</h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-3xl bg-slate-50 p-4">
+                    <p className="text-sm text-slate-500">Traveler</p>
+                    <p className="font-semibold mt-2">{formData.travelerName || "Traveler"}</p>
+                  </div>
+                  <div className="rounded-3xl bg-slate-50 p-4">
+                    <p className="text-sm text-slate-500">Dates</p>
+                    <p className="font-semibold mt-2">{format(startDate, "dd MMM yyyy")} – {format(endDate, "dd MMM yyyy")}</p>
+                  </div>
+                  <div className="rounded-3xl bg-slate-50 p-4">
+                    <p className="text-sm text-slate-500">Destination</p>
+                    <p className="font-semibold mt-2">{itinerary.summary.destination}</p>
+                  </div>
+                  <div className="rounded-3xl bg-slate-50 p-4">
+                    <p className="text-sm text-slate-500">Group size</p>
+                    <p className="font-semibold mt-2">{formData.groupSize}</p>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="rounded-3xl p-6 shadow-xl border border-slate-100">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-slate-500">Ready to share</p>
+                    <h3 className="text-xl font-semibold">Download or edit</h3>
+                  </div>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <Button onClick={onDownloadPDF} className="bg-purple-700 text-white font-semibold flex items-center justify-center gap-2 px-5 py-3">
+                      <Download /> Download PDF
+                    </Button>
+                    <Button onClick={onStartOver} className="bg-slate-100 text-slate-900 font-semibold flex items-center justify-center gap-2 px-5 py-3">
+                      <ArrowLeft /> Start Over
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            <div className="rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-8 text-white shadow-xl">
+              <p className="text-sm uppercase tracking-[0.35em] text-slate-400">Highlights</p>
+              <div className="mt-6 space-y-4">
+                <div className="rounded-3xl bg-white/10 p-4">
+                  <p className="text-sm text-slate-300">Trip type</p>
+                  <p className="mt-2 text-lg font-semibold">{formData.travelStyle || "Custom Adventure"}</p>
+                </div>
+                <div className="rounded-3xl bg-white/10 p-4">
+                  <p className="text-sm text-slate-300">Budget goal</p>
+                  <p className="mt-2 text-lg font-semibold">₹{formData.budget || "Flexible"}</p>
+                </div>
+                <div className="rounded-3xl bg-white/10 p-4">
+                  <p className="text-sm text-slate-300">Must-do</p>
+                  <p className="mt-2 text-lg font-semibold">{formData.highlights || "Local experiences"}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 space-y-6">
+            {itinerary.dayWisePlan.map((day, index) => (
+              <Card key={index} className="rounded-3xl border border-slate-100 overflow-hidden shadow-lg">
+                <div className="bg-gradient-to-r from-purple-600 to-fuchsia-500 p-6 text-white flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.35em] text-slate-200">Day {day.day}</p>
+                    <h3 className="text-2xl font-semibold">{day.title || `Explore ${itinerary.summary.destination}`}</h3>
+                  </div>
+                  <div className="rounded-3xl bg-white/10 px-4 py-2 text-slate-100 text-sm font-medium">
+                    ₹{calculateDayTotal(day).toLocaleString()} estimate
+                  </div>
+                </div>
+
+                <div className="bg-white p-6">
+                  {day.activities?.length > 0 && (
+                    <div className="mb-6">
+                      <h4 className="text-lg font-semibold text-slate-900 mb-3">Activities</h4>
+                      <ul className="space-y-3">
+                        {day.activities.map((act, i) => (
+                          <li key={i} className="rounded-3xl border border-slate-200 p-4">
+                            <p className="font-semibold text-slate-900">{act.title}</p>
+                            {act.time && <p className="text-sm text-slate-500">{act.time}</p>}
+                            {act.costINR && <p className="mt-2 text-sm text-emerald-600 font-semibold">{act.costINR}</p>}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {day.transfers?.length > 0 && (
+                    <div className="mb-4">
+                      <h4 className="text-lg font-semibold text-slate-900 mb-3">Transfers</h4>
+                      <ul className="space-y-2 text-slate-700">
+                        {day.transfers.map((t, i) => (
+                          <li key={i} className="rounded-3xl bg-slate-50 p-4 border border-slate-200">
+                            <p className="font-medium">{t.type}</p>
+                            <p className="text-sm text-slate-500">{t.time} · {t.price}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
