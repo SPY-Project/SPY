@@ -83,8 +83,6 @@ export default function TravelForm({ onSubmit }) {
             Step {step} of 2
           </p>
 
-
-
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-white">
             Plan Your Perfect Journey
           </h2>
@@ -122,9 +120,7 @@ export default function TravelForm({ onSubmit }) {
                   />
                 </div>
 
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
                   <Input
                     type="date"
                     icon={<Calendar size={18} />}

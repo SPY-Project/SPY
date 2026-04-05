@@ -7,7 +7,7 @@ const Input = ({ type = 'text', value, onChange, placeholder = '', ariaLabel, cl
     onChange={onChange}
     placeholder={placeholder}
     aria-label={ariaLabel}
-    className={`px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 ${className}`}
+    className={`px-4 py-3 border-2 border-gray-700 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-600 transition-all duration-200 placeholder-gray-400 text-gray-700 ${className}`}
     {...rest}
   />
 );

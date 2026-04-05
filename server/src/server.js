@@ -1,17 +1,45 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import fetch from "node-fetch"; // Make sure to install node-fetch: npm install node-fetch
+import fetch from "node-fetch";
+import mongoose from "mongoose";
+import authRouter from "./routes/auth.js";
+import verifyToken from "./middleware/verifyToken.js";
+import Itinerary from "./models/Itinerary.js";
 
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
   credentials: true
 }));
-app.post("/generate-itinerary", async (req, res) => {
+
+// MongoDB Connection (optional - auth works without it for now)
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log("MongoDB connection error:", err));
+} else {
+  console.log("⚠️  MongoDB not configured. Auth will work but itineraries won't be saved.");
+}
+
+// Auth routes (public)
+app.use("/api/auth", authRouter);
+
+// Protected: Generate Itinerary
+app.post("/generate-itinerary", verifyToken, async (req, res) => {
   try {
+    console.log("🔵 Generate Itinerary Request");
+    console.log("User ID:", req.userId);
+    console.log("Token header present:", !!req.headers.authorization);
+    
     const data = req.body;
 
 const prompt = `
@@ -98,6 +126,7 @@ GENERAL RULES:
 - Every day must cover morning to night.
 - Always include breakfast, sightseeing, lunch, rest, local travel, and dinner.
 - Activities must have time + realistic INR cost.
+- IMPORTANT: Keep costs BUDGET-FRIENDLY and REASONABLE. Use approximately 20-30% lower than typical tourist prices to make it affordable.
 - Adjust pacing and costs based on groupSize and trip duration.
 - Use ONLY places from the destination city.
 - Keep JSON 100% VALID.
@@ -138,12 +167,65 @@ const cleanContent = rawContent
   .replace(/```/g, '')
   .trim();
 
-res.json(JSON.parse(cleanContent));
+const itineraryData = JSON.parse(cleanContent);
+
+// Save itinerary to database
+let saved = false;
+try {
+  console.log("Attempting to save itinerary for userId:", req.userId);
+  const newItinerary = new Itinerary({
+    userId: req.userId,
+    formData: req.body,
+    itinerary: itineraryData
+  });
+  await newItinerary.save();
+  console.log("✅ Itinerary saved successfully");
+  saved = true;
+} catch (dbErr) {
+  console.error("❌ Save error:", dbErr.message);
+  console.error("Full error:", dbErr);
+}
+
+res.json({
+  ...itineraryData,
+  saved
+});
 
 
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to generate itinerary" });
+  }
+});
+
+// Get user itinerary history (saved trips)
+app.get("/itinerary-history", verifyToken, async (req, res) => {
+  try {
+    const history = await Itinerary.find({ userId: req.userId }).sort({ createdAt: -1 });
+    res.json(history);
+  } catch (err) {
+    console.error("History fetch error:", err);
+    res.status(500).json({ error: "Failed to fetch itinerary history" });
+  }
+});
+
+// Delete a saved itinerary
+app.delete("/itinerary/:id", verifyToken, async (req, res) => {
+  try {
+    const itineraryId = req.params.id;
+    const deletedItinerary = await Itinerary.findOneAndDelete({
+      _id: itineraryId,
+      userId: req.userId // Ensure user can only delete their own itineraries
+    });
+
+    if (!deletedItinerary) {
+      return res.status(404).json({ error: "Itinerary not found" });
+    }
+
+    res.json({ message: "Itinerary deleted successfully" });
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.status(500).json({ error: "Failed to delete itinerary" });
   }
 });
 

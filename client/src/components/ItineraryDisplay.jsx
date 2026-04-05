@@ -7,6 +7,25 @@ import Card from "../ui/Card";
 
 const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) => {
 
+  // Function to parse cost from string like "500 INR"
+  const parseCost = (costStr) => {
+    if (!costStr) return 0;
+    const match = costStr.match(/(\d+)/);
+    return match ? parseInt(match[1]) : 0;
+  };
+
+  // Function to calculate total cost for a day
+  const calculateDayTotal = (day) => {
+    let total = 0;
+    if (day.activities) {
+      total += day.activities.reduce((sum, act) => sum + parseCost(act.costINR), 0);
+    }
+    if (day.transfers) {
+      total += day.transfers.reduce((sum, transfer) => sum + parseCost(transfer.price), 0);
+    }
+    return total;
+  };
+
   // SAFETY CHECKS
   if (!itinerary || typeof itinerary !== "object") {
     return <p className="text-center text-red-500">Loading itinerary...</p>;
@@ -25,6 +44,23 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
   return (
     <div className="max-w-4xl mx-auto">
 
+      {/* Save Status Banner */}
+      {!itinerary.saved && (
+        <div className="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded">
+          <p className="text-yellow-800">
+            <strong>Note:</strong> You're viewing this itinerary as a guest. Log in to save it to your history.
+          </p>
+        </div>
+      )}
+
+      {itinerary.saved && (
+        <div className="mb-6 p-4 bg-green-100 border-l-4 border-green-500 rounded">
+          <p className="text-green-800">
+            <strong>✓ Saved!</strong> This itinerary has been saved to your history.
+          </p>
+        </div>
+      )}
+
       {/* Header */}
       <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-3xl p-8 mb-8 shadow-2xl">
         <h1 className="text-2xl mb-2">Hi, {formData.travelerName || "Traveler"}!</h1>
@@ -33,12 +69,17 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
           {itinerary.summary.destination} Itinerary
         </h2>
 
-        <p className="text-xl mb-6">{days} Days {nights} Nights</p>
+        <p className="text-xl mb-2">{days} Days {nights} Nights</p>
+        {itinerary.summary.totalEstimatedCostINR && (
+          <p className="text-lg mb-6 text-blue-200">
+            Total Estimated Budget: ₹{itinerary.summary.totalEstimatedCostINR.toLocaleString()}
+          </p>
+        )}
 
         <div className="flex gap-4">
-          {/* <Button onClick={onDownloadPDF} className="bg-white text-purple-700 flex gap-2">
+          <Button onClick={onDownloadPDF} className="bg-purple-700 text-white font-semibold flex gap-2 px-6 py-3">
             <Download /> Download PDF
-          </Button> */}
+          </Button>
           
           <Button onClick={onStartOver} className="bg-gray-200 flex gap-2">
             <ArrowLeft /> Start Over
@@ -107,7 +148,12 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
                     {day.activities.map((act, i) => (
                       <li key={i} className="text-gray-700">
                         {act.time ? `${act.time} - ` : ""}
-                        {act.title} {/* FIXED */}
+                        {act.title}
+                        {act.costINR && (
+                          <span className="text-green-600 font-medium ml-2">
+                            ({act.costINR})
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -123,6 +169,13 @@ const ItineraryDisplay = ({ itinerary, formData, onDownloadPDF, onStartOver }) =
                     ))}
                   </ul>
                 )}
+
+                {/* Per Day Budget */}
+                <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                  <p className="text-green-800 font-semibold">
+                    Estimated Daily Budget: ₹{calculateDayTotal(day).toLocaleString()}
+                  </p>
+                </div>
 
               </div>
             </div>
